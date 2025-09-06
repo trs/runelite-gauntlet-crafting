@@ -1,52 +1,38 @@
 package com.trs.model;
 
 import com.trs.GauntletPluginConfig;
-import net.runelite.api.gameval.ItemID;
 import java.util.function.Function;
 
 public enum CraftingTieredItem {
   Helm(
-    ItemID.GAUNTLET_HELMET_T1, ItemID.GAUNTLET_HELMET_T2, ItemID.GAUNTLET_HELMET_T3,
-    ItemID.GAUNTLET_HELMET_T1_HM, ItemID.GAUNTLET_HELMET_T2_HM, ItemID.GAUNTLET_HELMET_T3_HM,
+    CraftingItem.HELM_T1, CraftingItem.HELM_T2, CraftingItem.HELM_T3,
     GauntletPluginConfig::craftingOptionHelm),
   Body(
-    ItemID.GAUNTLET_CHESTPLATE_T1, ItemID.GAUNTLET_CHESTPLATE_T2, ItemID.GAUNTLET_CHESTPLATE_T3,
-    ItemID.GAUNTLET_CHESTPLATE_T1_HM, ItemID.GAUNTLET_CHESTPLATE_T2_HM, ItemID.GAUNTLET_CHESTPLATE_T3_HM,
+    CraftingItem.BODY_T1, CraftingItem.BODY_T2, CraftingItem.BODY_T3,
     GauntletPluginConfig::craftingOptionBody),
   Legs(
-    ItemID.GAUNTLET_PLATELEGS_T1, ItemID.GAUNTLET_PLATELEGS_T2, ItemID.GAUNTLET_PLATELEGS_T3,
-    ItemID.GAUNTLET_PLATELEGS_T1_HM, ItemID.GAUNTLET_PLATELEGS_T2_HM, ItemID.GAUNTLET_PLATELEGS_T3_HM,
+    CraftingItem.LEGS_T1, CraftingItem.LEGS_T2, CraftingItem.LEGS_T3,
     GauntletPluginConfig::craftingOptionLegs),
   Melee(
-    ItemID.GAUNTLET_MELEE_T1, ItemID.GAUNTLET_MELEE_T2, ItemID.GAUNTLET_MELEE_T3,
-    ItemID.GAUNTLET_MELEE_T1_HM, ItemID.GAUNTLET_MELEE_T2_HM, ItemID.GAUNTLET_MELEE_T3_HM,
+    CraftingItem.MELEE_T1, CraftingItem.MELEE_T2, CraftingItem.MELEE_T3,
     GauntletPluginConfig::craftingOptionMelee),
   Magic(
-    ItemID.GAUNTLET_MAGIC_T1, ItemID.GAUNTLET_MAGIC_T2, ItemID.GAUNTLET_MAGIC_T3,
-    ItemID.GAUNTLET_MAGIC_T1_HM, ItemID.GAUNTLET_MAGIC_T2_HM, ItemID.GAUNTLET_MAGIC_T3_HM,
+    CraftingItem.MAGIC_T1, CraftingItem.MAGIC_T2, CraftingItem.MAGIC_T3,
     GauntletPluginConfig::craftingOptionMagic),
   Ranged(
-    ItemID.GAUNTLET_RANGED_T1, ItemID.GAUNTLET_RANGED_T2, ItemID.GAUNTLET_RANGED_T3,
-    ItemID.GAUNTLET_RANGED_T1_HM, ItemID.GAUNTLET_RANGED_T2_HM, ItemID.GAUNTLET_RANGED_T3_HM,
+    CraftingItem.RANGED_T1, CraftingItem.RANGED_T2, CraftingItem.RANGED_T3,
     GauntletPluginConfig::craftingOptionRanged);
 
-  private final int crystalBasic;
-  private final int crystalAttuned;
-  private final int crystalPerfected;
-  private final int corruptedBasic;
-  private final int corruptedAttuned;
-  private final int corruptedPerfected;
+  private final CraftingItem itemBasic;
+  private final CraftingItem itemAttuned;
+  private final CraftingItem itemPerfected;
   private final Function<GauntletPluginConfig, CraftingSetting> configGetter;
 
-  CraftingTieredItem(int crystalBasic, int crystalAttuned, int crystalPerfected,
-               int corruptedBasic, int corruptedAttuned, int corruptedPerfected,
+  CraftingTieredItem(CraftingItem itemBasic, CraftingItem itemAttuned, CraftingItem itemPerfected,
                Function<GauntletPluginConfig, CraftingSetting> configGetter) {
-    this.crystalBasic = crystalBasic;
-    this.crystalAttuned = crystalAttuned;
-    this.crystalPerfected = crystalPerfected;
-    this.corruptedBasic = corruptedBasic;
-    this.corruptedAttuned = corruptedAttuned;
-    this.corruptedPerfected = corruptedPerfected;
+    this.itemBasic = itemBasic;
+    this.itemAttuned = itemAttuned;
+    this.itemPerfected = itemPerfected;
     this.configGetter = configGetter;
   }
 
@@ -66,15 +52,27 @@ public enum CraftingTieredItem {
     return configGetter != null ? configGetter.apply(config) : CraftingSetting.NONE;
   }
 
-  public int[] getBasicTierItems() {
-    return new int[]{crystalBasic, corruptedBasic};
+  public int[] getBasicTierItemIDs() {
+    return itemBasic.getItemIDs();
   }
 
-  public int[] getAttunedTierItems() {
-    return new int[]{crystalAttuned, corruptedAttuned};
+  public int[] getAttunedTierItemIDs() {
+    return itemAttuned.getItemIDs();
   }
 
-  public int[] getPerfectedTierItems() {
-    return new int[]{crystalPerfected, corruptedPerfected};
+  public int[] getPerfectedTierItemIDs() {
+    return itemPerfected.getItemIDs();
+  }
+
+  public CraftingMaterial[] getBasicTierMaterials() {
+    return itemBasic.getMaterials();
+  }
+
+  public CraftingMaterial[] getAttunedTierMaterials() {
+    return itemAttuned.getMaterials();
+  }
+
+  public CraftingMaterial[] getPerfectedTierMaterials() {
+    return itemPerfected.getMaterials();
   }
 }

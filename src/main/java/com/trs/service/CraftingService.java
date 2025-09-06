@@ -8,6 +8,7 @@ import net.runelite.api.Client;
 import net.runelite.api.InventoryID;
 import net.runelite.api.ItemContainer;
 
+import com.trs.model.CraftingMaterial;
 import com.trs.model.CraftingTieredItem;
 import com.trs.model.CraftingCountItem;
 import com.trs.model.CraftingState;
@@ -44,25 +45,69 @@ public class CraftingService {
 
   private CraftingState getTieredCraftingState(CraftingTieredItem craftingItem) {
     CraftingSetting craftingSetting = craftingItem.getCraftingSetting(config);
-    
+
     if (craftingSetting == CraftingSetting.NONE) {
       return CraftingState.COMPLETE;
     }
+    
+    boolean hasTier3 = hasAnyItem(craftingItem.getPerfectedTierItemIDs());
+    boolean hasTier2 = hasTier3 || hasAnyItem(craftingItem.getAttunedTierItemIDs());
+    boolean hasTier1 = hasTier2 || hasAnyItem(craftingItem.getBasicTierItemIDs());
 
-    boolean hasTier3 = hasAnyItem(craftingItem.getPerfectedTierItems());
-    boolean hasTier2 = hasTier3 || hasAnyItem(craftingItem.getAttunedTierItems());
-    boolean hasTier1 = hasTier2 || hasAnyItem(craftingItem.getBasicTierItems());
-
-    switch (craftingSetting) {
-      case BASIC:
-        return hasTier1 ? CraftingState.COMPLETE : CraftingState.INCOMPLETE;
-      case ATTUNED:
-        return hasTier2 ? CraftingState.COMPLETE : CraftingState.INCOMPLETE;
-      case PERFECTED:
-        return hasTier3 ? CraftingState.COMPLETE : CraftingState.INCOMPLETE;
-      default:
+    if (craftingSetting == CraftingSetting.BASIC) {
+      if (hasTier1) {
         return CraftingState.COMPLETE;
+      } else {
+        if (hasMaterials(craftingItem.getBasicTierMaterials())) {
+          return CraftingState.INCOMPLETE;
+        }
+      }
+
+      return CraftingState.MISSING_MATERIALS;
     }
+
+    if (craftingSetting == CraftingSetting.ATTUNED) {
+      if (hasTier2) {
+        return CraftingState.COMPLETE;
+      }
+      else if (hasTier1) {
+        if (hasMaterials(craftingItem.getAttunedTierMaterials())) {
+          return CraftingState.INCOMPLETE;
+        }
+      }
+      else {
+        if (hasMaterials(craftingItem.getBasicTierMaterials())) {
+          return CraftingState.INCOMPLETE;
+        }
+      }
+
+      return CraftingState.MISSING_MATERIALS;
+    }
+
+    if (craftingSetting == CraftingSetting.PERFECTED) {
+      if (hasTier3) {
+        return CraftingState.COMPLETE;
+      }
+      else if (hasTier2) {
+        if (hasMaterials(craftingItem.getPerfectedTierMaterials())) {
+          return CraftingState.INCOMPLETE;
+        }
+      }
+      else if (hasTier1) {
+        if (hasMaterials(craftingItem.getAttunedTierMaterials())) {
+          return CraftingState.INCOMPLETE;
+        }
+      }
+      else {
+        if (hasMaterials(craftingItem.getBasicTierMaterials())) {
+          return CraftingState.INCOMPLETE;
+        }
+      }
+
+      return CraftingState.MISSING_MATERIALS;      
+    }
+
+    return CraftingState.SKIP;    
   }
 
   private CraftingState getCountCraftingState(CraftingCountItem craftingItem) {
@@ -73,7 +118,7 @@ public class CraftingService {
     if (inventory != null) {
       for (var item : inventory.getItems()) {
         if (craftingItem.hasItemID(item.getId())) {
-          count++;
+          count += item.getQuantity();
         }
       }
     }
@@ -81,6 +126,11 @@ public class CraftingService {
     if (count >= craftingCountTarget) {
       return CraftingState.COMPLETE;
     }
+
+    if (!hasMaterials(craftingItem.getMaterials())) {
+      return CraftingState.MISSING_MATERIALS;
+    }
+
     return CraftingState.INCOMPLETE;
   }
 
@@ -94,4 +144,21 @@ public class CraftingService {
     }
     return false;
   }
+
+  private boolean hasMaterials(CraftingMaterial[] materials) {
+    ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+    if (inventory == null) return false;
+
+    for (CraftingMaterial material : materials) {
+      int quantity = 0;
+      for (var item : inventory.getItems()) {
+        if (material.hasItemID(item.getId())) {
+          quantity += item.getQuantity();
+        }
+      }
+
+      if (quantity < material.quantity) return false;
+    }
+    return true;
+  };
 }

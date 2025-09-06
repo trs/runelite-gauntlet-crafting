@@ -137,7 +137,7 @@ public interface GauntletPluginConfig extends Config
 	String sectionColors = "sectionColors";
 
 	@ConfigItem(
-		position = 2,
+		position = 0,
 		keyName = "craftingHighlightColor",
 		name = "Craft highlight",
 		description = "Choose the color used to highlight craftable options in the crafting interface",
@@ -148,7 +148,7 @@ public interface GauntletPluginConfig extends Config
 		return new Color(0, 255, 0, 0);
 	}
 	@ConfigItem(
-		position = 3,
+		position = 1,
 		keyName = "craftingHighlightOutlineColor",
 		name = "Craft outline",
 		description = "Choose the color used to outline craftable options in the crafting interface",
@@ -160,7 +160,7 @@ public interface GauntletPluginConfig extends Config
 	}
 	
 	@ConfigItem(
-		position = 4,
+		position = 2,
 		keyName = "craftingHighlightStroke",
 		name = "Craft stroke",
 		description = "Choose the stoke width used to highlight the crafting interface",
@@ -171,7 +171,41 @@ public interface GauntletPluginConfig extends Config
 	}
 	
 	@ConfigItem(
-		position = 0,
+		position = 3,
+		keyName = "craftingHighlightMissingMaterialsColor",
+		name = "Missing materials highlight",
+		description = "Choose the color used to fill options that need materials in the crafting interface",
+		section = sectionColors
+	)
+	@Alpha
+	default Color craftingHighlightMissingMaterialsColor() {
+		return new Color(64, 64, 64, 80);
+	}
+	@ConfigItem(
+		position = 4,
+		keyName = "craftingHighlightMissingMaterialsOutlineColor",
+		name = "Missing materials outline",
+		description = "Choose the color used to outline options that need materials in the crafting interface",
+		section = sectionColors
+	)
+	@Alpha
+	default Color craftingHighlightMissingMaterialsOutlineColor() {
+		return new Color(0, 255, 0, 200);
+	}
+	
+	@ConfigItem(
+		position = 5,
+		keyName = "craftingHighlightMissingMaterialsStroke",
+		name = "Missing materials stroke",
+		description = "Choose the stoke width used to highlight the crafting interface",
+		section = sectionColors
+	)
+	default int craftingHighlightMissingMaterialsStroke() {
+		return 1;
+	}
+	
+	@ConfigItem(
+		position = 6,
 		keyName = "craftingHighlightCompleteColor",
 		name = "Done highlight",
 		description = "Choose the color used to fill completed options in the crafting interface",
@@ -179,10 +213,10 @@ public interface GauntletPluginConfig extends Config
 	)
 	@Alpha
 	default Color craftingHighlightCompleteColor() {
-		return new Color(64, 64, 64, 204);
+		return new Color(64, 64, 64, 210);
 	}
 	@ConfigItem(
-		position = 1,
+		position = 7,
 		keyName = "craftingHighlightCompleteOutlineColor",
 		name = "Done outline",
 		description = "Choose the color used to outline completed options in the crafting interface",
@@ -194,7 +228,7 @@ public interface GauntletPluginConfig extends Config
 	}
 	
 	@ConfigItem(
-		position = 4,
+		position = 8,
 		keyName = "craftingHighlightCompleteStroke",
 		name = "Done stroke",
 		description = "Choose the stoke width used to highlight the crafting interface",

@@ -1,55 +1,32 @@
 package com.trs.model;
 
 import com.trs.GauntletPluginConfig;
-import net.runelite.api.gameval.ItemID;
 import java.util.function.Function;
-import java.util.Set;
-import java.util.HashSet;
 
 public enum CraftingCountItem {
   TeleportCrystal(
-    new int[] {
-      ItemID.GAUNTLET_TELEPORT_CRYSTAL,
-      ItemID.GAUNTLET_TELEPORT_CRYSTAL_HM,
-    },
+    CraftingItem.TELEPORT_CRYSTAL,
     GauntletPluginConfig::craftingTeleportCount
   ),
   Vial(
-    new int[] {
-      ItemID.GAUNTLET_VIAL_EMPTY,
-      ItemID.GAUNTLET_VIAL_WATER,
-      ItemID.GAUNTLET_POTION_UNFINISHED,
-      ItemID.GAUNTLET_POTION_1,
-      ItemID.GAUNTLET_POTION_2,
-      ItemID.GAUNTLET_POTION_3,
-      ItemID.GAUNTLET_POTION_4
-    },
+    CraftingItem.VIAL,
     GauntletPluginConfig::craftingPotionCount
   ),
   Paddlefish(
-    new int[] {
-      ItemID.GAUNTLET_COMBO_FOOD,
-      ItemID.GAUNTLET_COMBO_FOOD_HM
-    },
+    CraftingItem.PADDLEFISH,
     GauntletPluginConfig::craftingCrystalPaddlefishCount
   ),
   EscapeCrystal(
-    new int[] {
-      ItemID.GAUNTLET_ESCAPE_CRYSTAL,
-      ItemID.GAUNTLET_ESCAPE_CRYSTAL_HM
-    },
+    CraftingItem.ESCAPE_CRYSTAL,
     GauntletPluginConfig::craftingEscapeCrystalCount
   );
 
-  private final Set<Integer> items;
+  private final CraftingItem item;
   private final Function<GauntletPluginConfig, Integer> configGetter;
 
-  CraftingCountItem(int[] items, Function<GauntletPluginConfig, Integer> configGetter) {
+  CraftingCountItem(CraftingItem item, Function<GauntletPluginConfig, Integer> configGetter) {
     this.configGetter = configGetter;
-    this.items = new HashSet<>();
-    for (int item : items) {
-        this.items.add(item);
-    }
+    this.item = item;
   }
 
   public static CraftingCountItem fromIndex(int index) {
@@ -67,6 +44,13 @@ public enum CraftingCountItem {
   }
 
   public boolean hasItemID(int itemID) {
-    return items.contains(itemID);
+    for (int id : item.getItemIDs()) {
+      if (id == itemID) return true;
+    }
+    return false;
+  }
+
+  public CraftingMaterial[] getMaterials() {
+    return item.getMaterials();
   }
 }

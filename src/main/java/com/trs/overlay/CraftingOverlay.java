@@ -78,6 +78,13 @@ public class CraftingOverlay extends Overlay {
           graphics.setStroke(new BasicStroke(config.craftingHighlightCompleteStroke()));
           graphics.draw(bounds);
           break;
+        case MISSING_MATERIALS:
+          graphics.setColor(config.craftingHighlightMissingMaterialsColor());
+          graphics.fill(bounds);
+          graphics.setColor(config.craftingHighlightMissingMaterialsOutlineColor());
+          graphics.setStroke(new BasicStroke(config.craftingHighlightMissingMaterialsStroke()));
+          graphics.draw(bounds);
+          break;
         case SKIP:
           break;
       }
