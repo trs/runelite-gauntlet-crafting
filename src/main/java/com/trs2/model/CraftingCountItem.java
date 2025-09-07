@@ -1,7 +1,8 @@
-package com.trs.model;
+package com.trs2.model;
 
-import com.trs.GauntletPluginConfig;
 import java.util.function.Function;
+
+import com.trs2.GauntletPluginConfig;
 
 public enum CraftingCountItem {
   TeleportCrystal(

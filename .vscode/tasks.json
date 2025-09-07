@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "gradle-test-debug",
+            "type": "shell",
+            "command": "cmd",
+            "args": ["/c", "gradlew.bat", "clean", "test", "-Pdebug"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "isBackground": true,
+            "promptOnClose": false
+        }
+    ]
+}

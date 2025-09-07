@@ -1,8 +1,10 @@
-package com.trs.service;
+package com.trs2.service;
 
-import com.trs.overlay.CraftingOverlay;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import com.trs2.overlay.CraftingOverlay;
+
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.ui.overlay.OverlayManager;
 

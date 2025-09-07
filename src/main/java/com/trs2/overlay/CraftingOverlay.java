@@ -1,12 +1,12 @@
-package com.trs.overlay;
+package com.trs2.overlay;
 
 import java.awt.*;
 import javax.inject.Inject;
 
-import com.trs.GauntletPluginConfig;
-import com.trs.service.CraftingService;
-import com.trs.model.CraftingIndex;
-import com.trs.model.CraftingState;
+import com.trs2.GauntletPluginConfig;
+import com.trs2.model.CraftingState;
+import com.trs2.service.CraftingService;
+import com.trs2.service.LocationService;
 
 import net.runelite.api.Client;
 import net.runelite.api.widgets.Widget;
@@ -22,15 +22,17 @@ public class CraftingOverlay extends Overlay {
   private static final String ACTION_TEXT = "What would you like to make?";
 
   private final Client client;
-  private final GauntletPluginConfig config;
   private final CraftingService service;
-  
+  private final GauntletPluginConfig config;
+  private final LocationService locationService;
+
   @Inject
-  public CraftingOverlay(Client client, GauntletPluginConfig config, CraftingService service) {
+  public CraftingOverlay(CraftingService service, GauntletPluginConfig config, LocationService locationService, Client client) {
       super();
       this.client = client;
-      this.config = config;
       this.service = service;
+      this.config = config;
+      this.locationService = locationService;
       setPosition(OverlayPosition.DYNAMIC);
       setLayer(OverlayLayer.ABOVE_WIDGETS);
       setPriority(.6F);
@@ -38,22 +40,55 @@ public class CraftingOverlay extends Overlay {
 
   @Override
   public Dimension render(Graphics2D graphics2D) {
+    if (!locationService.isInGauntletMaze()) return null;
+
     if (!isCrafting()) return null;
 
     Widget root = client.getWidget(CRAFTING_WIDGET, 0);
-    if (root == null || root.isHidden()) return null;
+    if (root == null || root.isHidden()) {
+        return null;
+    }
 
     for (int i = 0; i < CRAFTING_OPTION_COUNT; i++) {
       Widget childWidget = client.getWidget(CRAFTING_WIDGET, CRAFTING_FIRST_OPTION_WIDGET + i);
-      if (childWidget == null || childWidget.isHidden()) continue;
-
-      var craftingIndex = CraftingIndex.fromIndex(i);
-      if (craftingIndex == null) continue;
-    
-      renderOverlay(graphics2D, childWidget, service.getCraftingState(craftingIndex));
+      if (childWidget != null && !childWidget.isHidden()) {
+        var craftingState = service.getCraftingState(i);
+        renderOverlay(graphics2D, childWidget, craftingState);
+      }
     }
 
     return null;
+  }
+
+  private void renderOverlay(Graphics2D graphics, Widget childWidget, CraftingState craftingState) {
+    Rectangle bounds = childWidget.getBounds();
+    if (bounds != null) {
+      switch (craftingState) {
+        case INCOMPLETE:
+          graphics.setColor(config.craftingHighlightColor());
+          graphics.fill(bounds);
+          graphics.setColor(config.craftingHighlightOutlineColor());
+          graphics.setStroke(new BasicStroke(config.craftingHighlightStroke()));
+          graphics.draw(bounds);
+          break;
+        case COMPLETE:
+          graphics.setColor(config.craftingHighlightCompleteColor());
+          graphics.fill(bounds);
+          graphics.setColor(config.craftingHighlightCompleteOutlineColor());
+          graphics.setStroke(new BasicStroke(config.craftingHighlightCompleteStroke()));
+          graphics.draw(bounds);
+          break;
+        case MISSING_MATERIALS:
+          graphics.setColor(config.craftingHighlightMissingMaterialsColor());
+          graphics.fill(bounds);
+          graphics.setColor(config.craftingHighlightMissingMaterialsOutlineColor());
+          graphics.setStroke(new BasicStroke(config.craftingHighlightMissingMaterialsStroke()));
+          graphics.draw(bounds);
+          break;
+        case SKIP:
+          break;
+      }
+    }
   }
 
   private boolean isCrafting() {
@@ -61,36 +96,5 @@ public class CraftingOverlay extends Overlay {
     return childWidget != null
       && childWidget.getText() != null
       && childWidget.getText().equalsIgnoreCase(ACTION_TEXT);
-  }
-
-  private void renderOverlay(Graphics2D graphics, Widget childWidget, CraftingState craftingState) {
-    Rectangle bounds = childWidget.getBounds();
-    if (bounds != null) {
-      switch (craftingState) {
-        case TO_CRAFT:
-          graphics.setColor(config.craftingHighlightColor());
-          graphics.fill(bounds);
-          graphics.setColor(config.craftingHighlightOutlineColor());
-          graphics.setStroke(new BasicStroke(config.craftingHighlightStroke()));
-          graphics.draw(bounds);
-          break;
-        case CRAFTED:
-          graphics.setColor(config.craftingHighlightCompleteColor());
-          graphics.fill(bounds);
-          graphics.setColor(config.craftingHighlightCompleteOutlineColor());
-          graphics.setStroke(new BasicStroke(config.craftingHighlightCompleteStroke()));
-          graphics.draw(bounds);
-          break;
-        case NOT_ENOUGH_MATERIALS:
-          graphics.setColor(config.craftingHighlightMissingMaterialsColor());
-          graphics.fill(bounds);
-          graphics.setColor(config.craftingHighlightMissingMaterialsOutlineColor());
-          graphics.setStroke(new BasicStroke(config.craftingHighlightMissingMaterialsStroke()));
-          graphics.draw(bounds);
-          break;
-        default:
-          break;
-      }
-    }
   }
 }

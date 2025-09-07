@@ -1,4 +1,4 @@
-package com.trs.data;
+package com.trs2.data;
 
 import net.runelite.api.gameval.ItemID;
 

@@ -1,9 +1,11 @@
-package com.trs.service;
+package com.trs2.service;
 
+import lombok.extern.slf4j.Slf4j;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.runelite.api.Client;
 
+@Slf4j
 @Singleton
 public class LocationService {
 	private static final int VARBIT_MAZE = 9178;

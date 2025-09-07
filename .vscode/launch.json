@@ -16,6 +16,15 @@
             "env": {
                 "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-11.0.25.9-hotspot"
             }
+        },
+        {
+            "type": "java",
+            "name": "Debug Gradle Tests (Attach)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005,
+            "timeout": 30000,
+            "preLaunchTask": "gradle-test-debug"
         }
     ]
 } 

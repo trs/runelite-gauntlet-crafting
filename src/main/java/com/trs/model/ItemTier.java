@@ -1,6 +1,6 @@
 package com.trs.model;
 
-public enum CraftingSetting {
+public enum ItemTier {
   NONE,
   BASIC,
   ATTUNED,

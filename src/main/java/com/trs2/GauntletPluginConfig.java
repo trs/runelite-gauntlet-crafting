@@ -1,8 +1,8 @@
-package com.trs;
+package com.trs2;
 
 import java.awt.Color;
 
-import com.trs.model.ItemTier;
+import com.trs2.model.CraftingSetting;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
@@ -10,11 +10,9 @@ import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Alpha;
 
-@ConfigGroup(GauntletPluginConfig.PLUGIN_GROUP_NAME)
+@ConfigGroup("gauntlet-crafting")
 public interface GauntletPluginConfig extends Config
 {
-	public static final String PLUGIN_GROUP_NAME = "gauntlet-crafting";
-
 	@ConfigSection(
 		position = 0,
 		name = "Crafting Settings",
@@ -29,8 +27,8 @@ public interface GauntletPluginConfig extends Config
 		description = "Choose tier of ranged weapon to craft",
 		section = sectionCrafting
 	)
-	default ItemTier craftingOptionRanged() {
-			return ItemTier.PERFECTED;
+	default CraftingSetting craftingOptionRanged() {
+			return CraftingSetting.PERFECTED;
 	}
 	
 	@ConfigItem(
@@ -40,8 +38,8 @@ public interface GauntletPluginConfig extends Config
 		description = "Choose tier of magic weapon to craft",
 		section = sectionCrafting
 	)
-	default ItemTier craftingOptionMagic() {
-			return ItemTier.PERFECTED;
+	default CraftingSetting craftingOptionMagic() {
+			return CraftingSetting.PERFECTED;
 	}
 
 	@ConfigItem(
@@ -51,8 +49,8 @@ public interface GauntletPluginConfig extends Config
 		description = "Choose tier of melee weapon to craft",
 		section = sectionCrafting
 	)
-	default ItemTier craftingOptionMelee() {
-			return ItemTier.NONE;
+	default CraftingSetting craftingOptionMelee() {
+			return CraftingSetting.NONE;
 	}
 
 	@ConfigItem(
@@ -62,8 +60,8 @@ public interface GauntletPluginConfig extends Config
 		description = "Choose tier of helm to craft",
 		section = sectionCrafting
 	)
-	default ItemTier craftingOptionHelm() {
-			return ItemTier.BASIC;
+	default CraftingSetting craftingOptionHelm() {
+			return CraftingSetting.BASIC;
 	}
 
 	@ConfigItem(
@@ -73,8 +71,8 @@ public interface GauntletPluginConfig extends Config
 		description = "Choose tier of body to craft",
 		section = sectionCrafting
 	)
-	default ItemTier craftingOptionBody() {
-			return ItemTier.BASIC;
+	default CraftingSetting craftingOptionBody() {
+			return CraftingSetting.BASIC;
 	}
 
 	@ConfigItem(
@@ -84,15 +82,15 @@ public interface GauntletPluginConfig extends Config
 		description = "Choose tier of legs to craft",
 		section = sectionCrafting
 	)
-	default ItemTier craftingOptionLegs() {
-			return ItemTier.BASIC;
+	default CraftingSetting craftingOptionLegs() {
+			return CraftingSetting.BASIC;
 	}
 
 	@ConfigItem(
 		position = 6,
 		keyName = "craftingTeleportCount",
 		name = "Teleport crystal",
-		description = "Number of teleport crystals to craft",
+		description = "Number of teleport crystals to have",
 		section = sectionCrafting
 	)
 	default int craftingTeleportCount() {
@@ -103,7 +101,7 @@ public interface GauntletPluginConfig extends Config
 		position = 7,
 		keyName = "craftingPotionCount",
 		name = "Potion vial",
-		description = "Number of potions/vials to craft",
+		description = "Number of potions/vials to have",
 		section = sectionCrafting
 	)
 	default int craftingPotionCount() {
@@ -111,21 +109,10 @@ public interface GauntletPluginConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 8,
-		keyName = "craftingPaddlefishCount",
-		name = "Paddlefish",
-		description = "Number of paddlefish to cook",
-		section = sectionCrafting
-	)
-	default int craftingPaddlefishCount() {
-		return 0;
-	}
-
-	@ConfigItem(
 		position = 9,
 		keyName = "craftingCrystalPaddlefishCount",
 		name = "Crystal paddlefish",
-		description = "Number of crystal paddlefish to craft",
+		description = "Number of escape crystals to have",
 		section = sectionCrafting
 	)
 	default int craftingCrystalPaddlefishCount() {
@@ -133,36 +120,19 @@ public interface GauntletPluginConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 10,
+		position = 9,
 		keyName = "craftingEscapeCrystalCount",
 		name = "Escape crystal",
-		description = "Number of escape crystals to craft",
+		description = "Number of escape crystals to have",
 		section = sectionCrafting
 	)
 	default int craftingEscapeCrystalCount() {
 		return 0;
 	}
 
+
 	@ConfigSection(
 		position = 1,
-		name = "Resource Overlay",
-		description = "Resource overlay settings"
-	)
-	String sectionResourceOverlay = "sectionResourceOverlay";
-
-	@ConfigItem(
-		position = 0,
-		keyName = "resourceOverlayEnabled",
-		name = "Enabled",
-		description = "Enable resource overlay",
-		section = sectionResourceOverlay
-	)
-	default boolean resourceOverlayEnabled() {
-		return false;
-	}
-
-	@ConfigSection(
-		position = 2,
 		name = "Color Settings",
 		description = "Pick colors for each overlay element"
 	)

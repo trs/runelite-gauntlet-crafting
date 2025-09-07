@@ -1,4 +1,4 @@
-package com.trs.model;
+package com.trs2.model;
 
 import java.util.Set;
 import java.util.HashSet;
