@@ -1,4 +1,4 @@
-package com.trs.service;
+package com.trs.system;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.lenient;
@@ -6,14 +6,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.trs.GauntletPluginConfig;
-import com.trs.entity.CraftableItem;
+import com.trs.service.ConfigService;
 import com.trs.model.CraftingIndex;
 import com.trs.model.CraftingState;
 import com.trs.model.ItemTier;
@@ -25,7 +24,7 @@ import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ItemID;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CraftingServiceTest {
+public class CraftingSystemTest {
 
     @Mock
     private Client client;
@@ -34,16 +33,20 @@ public class CraftingServiceTest {
     private GauntletPluginConfig config;
     
     @Mock
+    private ConfigService settingsService;
+    
+    @Mock
     private ItemContainer inventoryContainer;
     
     @Mock
     private ItemContainer equipmentContainer;
     
-    private CraftingService craftingService;
+    private CraftingSystem craftingSystem;
     
     @Before
     public void setUp() {
-        craftingService = new CraftingService(client, config);
+        settingsService = new ConfigService(config);
+        craftingSystem = new CraftingSystem(settingsService, client);
         
         // Default mock setup - using lenient to avoid unnecessary stubbing warnings
         lenient().when(client.getItemContainer(InventoryID.INV)).thenReturn(inventoryContainer);
@@ -55,10 +58,10 @@ public class CraftingServiceTest {
     @Test
     public void shouldReturnSkipWhenTierSettingIsNone() {
         // Given
-        when(config.craftingOptionHelm()).thenReturn(ItemTier.NONE);
+        when(config.craftingOptionMelee()).thenReturn(ItemTier.NONE);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.MELEE);
 
         // Then
         assertEquals(CraftingState.SKIP, result);
@@ -70,7 +73,7 @@ public class CraftingServiceTest {
         when(config.craftingOptionHelm()).thenReturn(ItemTier.BASIC);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
 
         // Then
         assertEquals(CraftingState.NOT_ENOUGH_MATERIALS, result);
@@ -82,7 +85,7 @@ public class CraftingServiceTest {
         when(config.craftingOptionHelm()).thenReturn(ItemTier.ATTUNED);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
 
         // Then
         assertEquals(CraftingState.NOT_ENOUGH_MATERIALS, result);
@@ -94,7 +97,7 @@ public class CraftingServiceTest {
         when(config.craftingOptionHelm()).thenReturn(ItemTier.PERFECTED);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
 
         // Then
         assertEquals(CraftingState.NOT_ENOUGH_MATERIALS, result);
@@ -114,7 +117,7 @@ public class CraftingServiceTest {
         when(inventoryContainer.getItems()).thenReturn(items);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
 
         // Then
         assertEquals(CraftingState.TO_CRAFT, result);
@@ -136,7 +139,7 @@ public class CraftingServiceTest {
         when(equipmentContainer.contains(ItemID.GAUNTLET_HELMET_T1)).thenReturn(true);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
 
         // Then
         assertEquals(CraftingState.TO_CRAFT, result);
@@ -156,7 +159,7 @@ public class CraftingServiceTest {
         when(inventoryContainer.getItems()).thenReturn(items);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
 
         // Then
         assertEquals(CraftingState.TO_CRAFT, result);
@@ -179,7 +182,27 @@ public class CraftingServiceTest {
         when(equipmentContainer.contains(ItemID.GAUNTLET_HELMET_T1)).thenReturn(true);
 
         // When
-        CraftingState result = craftingService.getCraftingState(CraftingIndex.HELM);
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.HELM);
+
+        // Then
+        assertEquals(CraftingState.NOT_ENOUGH_MATERIALS, result);
+    }
+    
+    @Test
+    public void shouldReturnNotEnoughMaterialsForPerfectedTierWithBasicWeaponAndMaterials() {
+        // Given
+        when(config.craftingOptionMelee()).thenReturn(ItemTier.PERFECTED);
+        
+        Item[] items = new Item[]{
+            createMockItem(ItemID.GAUNTLET_CRYSTAL_SHARD, 20),
+            createMockItem(ItemID.GAUNTLET_GENERIC_COMPONENT, 1),
+        };
+        when(inventoryContainer.getItems()).thenReturn(items);
+
+        when(equipmentContainer.contains(ItemID.GAUNTLET_MELEE_T2)).thenReturn(true);
+
+        // When
+        CraftingState result = craftingSystem.getCraftingState(CraftingIndex.MELEE);
 
         // Then
         assertEquals(CraftingState.NOT_ENOUGH_MATERIALS, result);

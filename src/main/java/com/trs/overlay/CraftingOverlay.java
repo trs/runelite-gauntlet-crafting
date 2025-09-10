@@ -2,11 +2,14 @@ package com.trs.overlay;
 
 import java.awt.*;
 import javax.inject.Inject;
+import javax.inject.Singleton;
+import lombok.extern.slf4j.Slf4j;
 
 import com.trs.GauntletPluginConfig;
-import com.trs.service.CraftingService;
 import com.trs.model.CraftingIndex;
+import com.trs.system.CraftingSystem;
 import com.trs.model.CraftingState;
+import com.trs.service.LocationService;
 
 import net.runelite.api.Client;
 import net.runelite.api.widgets.Widget;
@@ -14,6 +17,8 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
+@Singleton
+@Slf4j
 public class CraftingOverlay extends Overlay {
   private static final int CRAFTING_WIDGET = 270;
   private static final int CRAFTING_TEXT_WIDGET = 5;
@@ -23,14 +28,16 @@ public class CraftingOverlay extends Overlay {
 
   private final Client client;
   private final GauntletPluginConfig config;
-  private final CraftingService service;
+  private final CraftingSystem craftingSystem;
+  private final LocationService locationService;
   
   @Inject
-  public CraftingOverlay(Client client, GauntletPluginConfig config, CraftingService service) {
+  public CraftingOverlay(Client client, GauntletPluginConfig config, CraftingSystem craftingSystem, LocationService locationService) {
       super();
       this.client = client;
       this.config = config;
-      this.service = service;
+      this.craftingSystem = craftingSystem;
+      this.locationService = locationService;
       setPosition(OverlayPosition.DYNAMIC);
       setLayer(OverlayLayer.ABOVE_WIDGETS);
       setPriority(.6F);
@@ -38,6 +45,7 @@ public class CraftingOverlay extends Overlay {
 
   @Override
   public Dimension render(Graphics2D graphics2D) {
+    if (!locationService.isInGauntletMaze()) return null;
     if (!isCrafting()) return null;
 
     Widget root = client.getWidget(CRAFTING_WIDGET, 0);
@@ -46,11 +54,9 @@ public class CraftingOverlay extends Overlay {
     for (int i = 0; i < CRAFTING_OPTION_COUNT; i++) {
       Widget childWidget = client.getWidget(CRAFTING_WIDGET, CRAFTING_FIRST_OPTION_WIDGET + i);
       if (childWidget == null || childWidget.isHidden()) continue;
-
-      var craftingIndex = CraftingIndex.fromIndex(i);
-      if (craftingIndex == null) continue;
     
-      renderOverlay(graphics2D, childWidget, service.getCraftingState(craftingIndex));
+      var craftingIndex = CraftingIndex.getCraftingIndex(i);
+      renderOverlay(graphics2D, childWidget, craftingSystem.getCraftingState(craftingIndex));
     }
 
     return null;
@@ -74,6 +80,7 @@ public class CraftingOverlay extends Overlay {
           graphics.setStroke(new BasicStroke(config.craftingHighlightStroke()));
           graphics.draw(bounds);
           break;
+        case SKIP:
         case CRAFTED:
           graphics.setColor(config.craftingHighlightCompleteColor());
           graphics.fill(bounds);

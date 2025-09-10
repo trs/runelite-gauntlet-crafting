@@ -1,6 +1,12 @@
 package com.trs.model;
 
 public enum ItemCategory {
+  ORE,
+  BARK,
+  FIBRE,
+  FISH,
+  HERB,
+  CRYSTAL_SHARD,
   HELM,
   BODY,
   LEGS,
@@ -9,7 +15,12 @@ public enum ItemCategory {
   RANGED,
   TELEPORT_CRYSTAL,
   VIAL,
+  POTION,
   FOOD,
   COMBO_FOOD,
-  ESCAPE_CRYSTAL
+  ESCAPE_CRYSTAL,
+  WEAPON_FRAME,
+  MAGIC_COMPONENT,
+  RANGED_COMPONENT,
+  MELEE_COMPONENT
 }

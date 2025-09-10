@@ -1,6 +1,0 @@
-- Setup crafting targets / resource numbers
-- Calculate final resource number requirements
-- Track resource allocation
-  - 
-- Track item crafting
-  - 

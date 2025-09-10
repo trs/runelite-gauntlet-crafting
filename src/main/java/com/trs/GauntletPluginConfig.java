@@ -102,7 +102,7 @@ public interface GauntletPluginConfig extends Config
 	@ConfigItem(
 		position = 7,
 		keyName = "craftingPotionCount",
-		name = "Potion vial",
+		name = "Potion",
 		description = "Number of potions/vials to craft",
 		section = sectionCrafting
 	)
@@ -113,18 +113,18 @@ public interface GauntletPluginConfig extends Config
 	@ConfigItem(
 		position = 8,
 		keyName = "craftingPaddlefishCount",
-		name = "Paddlefish",
+		name = "Food",
 		description = "Number of paddlefish to cook",
 		section = sectionCrafting
 	)
 	default int craftingPaddlefishCount() {
-		return 0;
+		return 24;
 	}
 
 	@ConfigItem(
 		position = 9,
 		keyName = "craftingCrystalPaddlefishCount",
-		name = "Crystal paddlefish",
+		name = "Combo food",
 		description = "Number of crystal paddlefish to craft",
 		section = sectionCrafting
 	)
