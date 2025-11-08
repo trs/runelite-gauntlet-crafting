@@ -1,6 +1,6 @@
 package com.trs.entity;
 
-import com.trs.type.IItemComponent;
+import com.trs.type.IComponent;
 import com.trs.component.ItemIDComponent;
 import com.trs.component.ItemCategoryComponent;
 import com.trs.component.MaterialComponent;
@@ -13,7 +13,7 @@ import com.trs.type.IEntity;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.ObjectID;
 
-public enum ItemEntity implements IEntity<IItemComponent> {
+public enum ItemEntity implements IEntity {
   // Resources
   ORE(
     new ItemCategoryComponent(ItemCategory.ORE),
@@ -240,14 +240,14 @@ public enum ItemEntity implements IEntity<IItemComponent> {
     new MaterialComponent(ItemEntity.RANGED_COMPONENT, 1)
   );
 
-  private final IItemComponent[] components;
+  private final IComponent[] components;
 
-  ItemEntity(IItemComponent... components) {
+  ItemEntity(IComponent... components) {
     this.components = components;
   }
 
   @Override
-  public IItemComponent[] getComponents() {
+  public IComponent[] getComponents() {
     return components;
   }
 }

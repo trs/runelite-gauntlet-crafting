@@ -2,9 +2,9 @@ package com.trs.component;
 
 import java.util.regex.Pattern;
 
-import com.trs.type.IItemComponent;
+import com.trs.type.IComponent;
 
-public class CollectPatternComponent implements IItemComponent {
+public class CollectPatternComponent implements IComponent {
   public Pattern collectPattern;
 
   public CollectPatternComponent(String collectPattern) {

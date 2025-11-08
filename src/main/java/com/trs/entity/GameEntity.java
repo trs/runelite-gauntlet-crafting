@@ -1,17 +1,17 @@
 package com.trs.entity;
 
-import com.trs.type.IGameComponent;
+import com.trs.type.IComponent;
 import com.trs.type.IEntity;
 
 // Corresponds to resources spawned in the game
-public class GameEntity implements IEntity<IGameComponent> {
-  private final IGameComponent[] components;
+public class GameEntity implements IEntity {
+  private final IComponent[] components;
 
-  public GameEntity(IGameComponent... components) {
+  public GameEntity(IComponent... components) {
     this.components = components;
   }
 
-  public IGameComponent[] getComponents() {
+  public IComponent[] getComponents() {
     return components;
   }
 }

@@ -2,11 +2,11 @@ package com.trs.component;
 
 import com.trs.model.ItemCategory;
 import com.trs.model.ItemTier;
-import com.trs.type.IItemComponent;
+import com.trs.type.IComponent;
 import com.trs.type.IEntity;
 import com.trs.entity.ItemEntity;
 
-public class ItemCategoryComponent implements IItemComponent {
+public class ItemCategoryComponent implements IComponent {
   public ItemCategory category;
   public ItemTier tier;
 
@@ -20,7 +20,7 @@ public class ItemCategoryComponent implements IItemComponent {
     this.tier = tier;
   }
 
-  public static IEntity<IItemComponent> getUpgradesFrom(IEntity<IItemComponent> item) {
+  public static IEntity getUpgradesFrom(IEntity item) {
     var itemCategory = item.getComponent(ItemCategoryComponent.class);
     if (itemCategory.tier == null) return null;
     if (itemCategory.tier == ItemTier.NONE) return null;

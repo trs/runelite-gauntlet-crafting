@@ -6,11 +6,12 @@ import javax.inject.Singleton;
 
 import com.trs.GauntletPluginDatabase;
 import com.trs.GauntletPluginConfig;
-// import com.trs.service.ResourceService;
+import com.trs.service.ConfigService;
 import com.trs.service.LocationService;
 import com.trs.entity.GameEntity;
 import com.trs.component.GameObjectComponent;
-import com.trs.component.ObjectItemComponent;
+import com.trs.component.EntityPointerComponent;
+import com.trs.component.ItemCategoryComponent;
 
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
@@ -26,24 +27,24 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class ResourceOverlay extends Overlay {
   private final Client client;
-	private final ModelOutlineRenderer modelOutlineRenderer;
   private final GauntletPluginConfig config;
-	// private final ResourceService resourceService;
+	private final ModelOutlineRenderer modelOutlineRenderer;
   private final LocationService locationService;
+  private final ConfigService configService;
   
   @Inject
   public ResourceOverlay(
-    GauntletPluginConfig config,
     Client client,
     ModelOutlineRenderer modelOutlineRenderer,
-    // ResourceService resourceService,
+    GauntletPluginConfig config,
+    ConfigService configService,
     LocationService locationService
   ) {
       super();
       this.client = client;
-      this.config = config;
       this.modelOutlineRenderer = modelOutlineRenderer;
-      // this.resourceService = resourceService;
+      this.config = config;
+      this.configService = configService;
       this.locationService = locationService;
       setPosition(OverlayPosition.DYNAMIC);
       setLayer(OverlayLayer.UNDER_WIDGETS);
@@ -54,45 +55,48 @@ public class ResourceOverlay extends Overlay {
   public Dimension render(Graphics2D graphics2D) {
     if (!locationService.isInGauntletMaze()) return null;
 
-    log.info("Collected resources: {}", GauntletPluginDatabase.collectedResources.size());
-
-    for (var resource : GauntletPluginDatabase.collectedResources.entrySet()) {
-      var calculatedCount = GauntletPluginDatabase.calculatedResources.getOrDefault(resource.getKey(), 0);
-      log.info("Collected resource: {} = {} / {}", resource.getKey().toString(), resource.getValue(), calculatedCount);
-    }
-    
     for (GameEntity resource : GauntletPluginDatabase.spawnedResources.values()) {
-      var gameObjectComponent = resource.getComponent(GameObjectComponent.class);
-      if (gameObjectComponent == null) continue;
+      var entityPointer = resource.getComponent(EntityPointerComponent.class);
+      if (entityPointer == null) continue;
 
-      var objectItemComponent = resource.getComponent(ObjectItemComponent.class);
-      if (objectItemComponent == null) continue;
+      var calculatedCount = GauntletPluginDatabase.calculatedResources.getOrDefault(entityPointer.entity, 0);
 
-      var calculatedCount = GauntletPluginDatabase.calculatedResources.getOrDefault(objectItemComponent.itemEntity, 0);
-
-      var collectedCount = GauntletPluginDatabase.collectedResources.getOrDefault(objectItemComponent.itemEntity, 0);
+      var collectedCount = GauntletPluginDatabase.collectedResources.getOrDefault(entityPointer.entity, 0);
 
       if (collectedCount >= calculatedCount) continue;
 
-      renderResource(graphics2D, gameObjectComponent.gameObject);
+      renderResource(graphics2D, resource);
     }
 
     return null;
   }
 
-  private void renderResource(Graphics2D graphics2D, GameObject gameObject) {
-    modelOutlineRenderer.drawOutline(
-      gameObject,
-      1,
-      new Color(0, 255, 255, 255),
-      1
-    );
+  private void renderResource(Graphics2D graphics2D, GameEntity resource) {
+    var gameObjectComponent = resource.getComponent(GameObjectComponent.class);
+    var entityPointer = resource.getComponent(EntityPointerComponent.class);
 
-    var polygon = Perspective.getCanvasTilePoly(client, gameObject.getLocalLocation());
-    if (polygon != null)
-    {
-      OverlayUtil.renderPolygon(graphics2D, polygon, new Color(0, 255, 255, 255),
-        new Color(0, 255, 255, 0), new BasicStroke(1));
+    var gameObject = gameObjectComponent.gameObject;
+
+    var itemCategory = entityPointer.entity.getComponent(ItemCategoryComponent.class);
+
+    var outlineColor = configService.getItemCategoryOutlineColor(itemCategory.category);
+    var fillColor = configService.getItemCategoryFillColor(itemCategory.category);
+
+    if (outlineColor != null) {
+      modelOutlineRenderer.drawOutline(
+        gameObject,
+        config.resourceOverlayHullOutlineWidth(),
+        outlineColor,
+        1
+      );
+
+      if (fillColor != null) {
+        var polygon = Perspective.getCanvasTilePoly(client, gameObject.getLocalLocation());
+        if (polygon != null)
+        {
+          OverlayUtil.renderPolygon(graphics2D, polygon, outlineColor, fillColor, new BasicStroke(config.resourceOverlayTileOutlineWidth()));
+        }
+      }
     }
   }
 }

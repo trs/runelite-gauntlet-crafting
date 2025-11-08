@@ -1,8 +1,8 @@
 package com.trs.component;
 
-import com.trs.type.IItemComponent;
+import com.trs.type.IComponent;
 
-public class ObjectIDComponent implements IItemComponent {
+public class ObjectIDComponent implements IComponent {
 
   public int[] objectIDs;
 

@@ -45,6 +45,7 @@ public class CraftingOverlay extends Overlay {
 
   @Override
   public Dimension render(Graphics2D graphics2D) {
+    if (!config.craftingOverlayEnabled()) return null;
     if (!locationService.isInGauntletMaze()) return null;
     if (!isCrafting()) return null;
 

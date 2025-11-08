@@ -5,10 +5,11 @@ import com.trs.component.MaterialComponent;
 import com.trs.component.ItemIDComponent;
 import com.trs.service.ConfigService;
 import com.trs.type.IEntity;
-import com.trs.type.IItemComponent;
+import com.trs.type.IComponent;
 import com.trs.model.CraftingIndex;
 import com.trs.model.CraftingState;
 import com.trs.model.ItemTier;
+import com.trs.entity.ItemEntity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -45,7 +46,7 @@ public class CraftingSystem extends AbstractSystem {
     return getCountCraftingState(entity);
   }
 
-  private CraftingState getTieredCraftingState(IEntity<IItemComponent> entity) {
+  private CraftingState getTieredCraftingState(IEntity entity) {
     // var tierSetting = entity.getComponent(ItemCategoryComponent.class).tier;
     var itemCategory = entity.getComponent(ItemCategoryComponent.class);
     var tierSetting = settingsService.getItemCategoryTierSetting(itemCategory.category);
@@ -85,12 +86,12 @@ public class CraftingSystem extends AbstractSystem {
     return CraftingState.SKIP;
   }
 
-  private CraftingState getCountCraftingState(IEntity<IItemComponent> entity) {
+  private CraftingState getCountCraftingState(IEntity entity) {
     var itemCategory = entity.getComponent(ItemCategoryComponent.class);
     int craftingCountTarget = settingsService.getItemCategoryQuantitySetting(itemCategory.category);
     if (craftingCountTarget == 0) return CraftingState.CRAFTED;
 
-    var itemIDs = entity.getComponent(ItemIDComponent.class).itemIDs;
+    var itemIDs = entity.getComponent(ItemIDComponent.class).ids;
 
     int count = 0;
     ItemContainer inventory = client.getItemContainer(InventoryID.INV);
@@ -118,8 +119,8 @@ public class CraftingSystem extends AbstractSystem {
   }
 
 
-  private IEntity<IItemComponent> getCraftingEntity(CraftingIndex index) {
-    for (var entity : getEntities()) {
+  private IEntity getCraftingEntity(CraftingIndex index) {
+    for (var entity : getEntities(ItemEntity.values())) {
       var itemCategory = entity.getComponent(ItemCategoryComponent.class);
       var entityIndex = CraftingIndex.getCraftingIndex(itemCategory.category);
       if (entityIndex == index && itemCategory.tier == settingsService.getItemCategoryTierSetting(itemCategory.category)) {
@@ -129,11 +130,11 @@ public class CraftingSystem extends AbstractSystem {
     return null;
   }
 
-  private boolean hasItem(IEntity<IItemComponent> entity) {
+  private boolean hasItem(IEntity entity) {
     ItemContainer inventory = client.getItemContainer(InventoryID.INV);
     ItemContainer equipment = client.getItemContainer(InventoryID.WORN);
 
-    var itemIDs = entity.getComponent(ItemIDComponent.class).itemIDs;
+    var itemIDs = entity.getComponent(ItemIDComponent.class).ids;
 
     for (int itemID : itemIDs) {
       if (inventory != null && inventory.contains(itemID)) return true;
@@ -142,7 +143,7 @@ public class CraftingSystem extends AbstractSystem {
     return false;
   }
   
-  private boolean hasMaterials(IEntity<IItemComponent> entity) {
+  private boolean hasMaterials(IEntity entity) {
     ItemContainer inventory = client.getItemContainer(InventoryID.INV);
     if (inventory == null) return false;
 
@@ -155,7 +156,7 @@ public class CraftingSystem extends AbstractSystem {
       int quantity = 0;
       for (var item : inventory.getItems()) {
 
-        for (var itemID : resourceIdentifier.itemIDs) {
+        for (var itemID : resourceIdentifier.ids) {
           if (itemID == item.getId()) {
             quantity += item.getQuantity();
             break;

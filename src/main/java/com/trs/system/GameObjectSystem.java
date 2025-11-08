@@ -1,10 +1,11 @@
 package com.trs.system;
 
 import com.trs.component.ObjectIDComponent;
-import com.trs.component.ObjectItemComponent;
+import com.trs.component.EntityPointerComponent;
 import com.trs.component.GameObjectComponent;
 import com.trs.entity.GameEntity;
 import com.trs.GauntletPluginDatabase;
+import com.trs.entity.ItemEntity;
 import com.trs.service.LocationService;
 
 import javax.inject.Singleton;
@@ -44,14 +45,14 @@ public class GameObjectSystem extends AbstractSystem {
 
     var gameObject = event.getGameObject();
     
-    for (var itemEntity : getEntities()) {
+    for (var itemEntity : getEntities(ItemEntity.values())) {
       var objectIDComponents = itemEntity.getComponents(ObjectIDComponent.class);
       for (var objectIDComponent : objectIDComponents) {
         if (objectIDComponent.hasObjectID(gameObject.getId())) {
 
           var gameEntity = new GameEntity(
             new GameObjectComponent(gameObject),
-            new ObjectItemComponent(itemEntity)
+            new EntityPointerComponent(itemEntity)
           );
 
           GauntletPluginDatabase.spawnedResources.put(GameObjectComponent.getIdentifier(gameObject), gameEntity);

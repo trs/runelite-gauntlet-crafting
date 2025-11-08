@@ -9,10 +9,11 @@ import com.trs.GauntletPluginConfig;
 import com.trs.GauntletPluginDatabase;
 import com.trs.component.ItemCategoryComponent;
 import com.trs.component.MaterialComponent;
+import com.trs.entity.ItemEntity;
 import com.trs.GauntletPlugin;
 import com.trs.service.ConfigService;
 import com.trs.type.IEntity;
-import com.trs.type.IItemComponent;
+import com.trs.type.IComponent;
 
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
@@ -42,17 +43,17 @@ public class ResourceCalculatorSystem extends AbstractSystem {
   }
 
   public void calculateResources() {
-    var materials = calculateAllMaterials(getEntities());
+    var materials = calculateAllMaterials(getEntities(ItemEntity.values()));
 
     for (var material : materials.entrySet()) {
       GauntletPluginDatabase.calculatedResources.put(material.getKey(), material.getValue());
     }
   }
 
-  public HashMap<IEntity<IItemComponent>, Integer> calculateAllMaterials(IEntity<IItemComponent>[] entities) {
-    var materials = new HashMap<IEntity<IItemComponent>, Integer>();
+  public HashMap<IEntity, Integer> calculateAllMaterials(IEntity[] entities) {
+    var materials = new HashMap<IEntity, Integer>();
 
-    for (IEntity<IItemComponent> entity : entities) {
+    for (IEntity entity : entities) {
       var itemCategory = entity.getComponent(ItemCategoryComponent.class);
       if (itemCategory == null) continue;
 
@@ -72,8 +73,8 @@ public class ResourceCalculatorSystem extends AbstractSystem {
     return materials;
   }
 
-  public HashMap<IEntity<IItemComponent>, Integer> calculateMaterials(IEntity<IItemComponent> entity, int count) {
-    var materials = new HashMap<IEntity<IItemComponent>, Integer>();
+  public HashMap<IEntity, Integer> calculateMaterials(IEntity entity, int count) {
+    var materials = new HashMap<IEntity, Integer>();
     if (count == 0) return materials;
 
     var materialComponents = entity.getComponents(MaterialComponent.class);

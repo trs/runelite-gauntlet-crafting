@@ -1,10 +1,10 @@
 package com.trs.component;
 
-import com.trs.type.IGameComponent;
+import com.trs.type.IComponent;
 
 import net.runelite.api.GameObject;
 
-public class GameObjectComponent implements IGameComponent {
+public class GameObjectComponent implements IComponent {
   public GameObject gameObject;
 
   public GameObjectComponent(GameObject gameObject) {

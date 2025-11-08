@@ -5,8 +5,8 @@ import javax.inject.Singleton;
 
 import com.trs.component.CollectPatternComponent;
 import com.trs.GauntletPluginDatabase;
+import com.trs.entity.ItemEntity;
 import com.trs.type.IEntity;
-import com.trs.type.IItemComponent;
 
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
@@ -42,7 +42,7 @@ public class ResourceCollectorSystem extends AbstractSystem {
 		{
 			var message = Text.removeTags(event.getMessage());
 
-      for (IEntity<IItemComponent> entity : getEntities()) {
+      for (IEntity entity : getEntities(ItemEntity.values())) {
         var components = entity.getComponents(CollectPatternComponent.class);
         if (components.isEmpty()) continue;
   
