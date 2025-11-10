@@ -247,6 +247,6 @@ public interface GauntletPluginConfig extends Config
 		section = sectionColors
 	)
 	default CraftingCompleteBehaviour craftingCompleteBehaviour() {
-		return CraftingCompleteBehaviour.DEFAULT;
+		return CraftingCompleteBehaviour.OVERLAY;
 	}
 }

@@ -1,7 +1,7 @@
 package com.trs.model;
 
 public enum CraftingCompleteBehaviour {
-    DEFAULT,
+    OVERLAY,
     DISABLE,
     HIDE
 }
