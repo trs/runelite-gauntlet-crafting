@@ -5,8 +5,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import net.runelite.api.Client;
-import net.runelite.api.InventoryID;
 import net.runelite.api.ItemContainer;
+import net.runelite.api.gameval.InventoryID;
 
 import com.trs.model.CraftingMaterial;
 import com.trs.model.CraftingTieredItem;
@@ -114,7 +114,7 @@ public class CraftingService {
     int craftingCountTarget = craftingItem.getCraftingSetting(config);
 
     int count = 0;
-    ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+    ItemContainer inventory = client.getItemContainer(InventoryID.INV);
     if (inventory != null) {
       for (var item : inventory.getItems()) {
         if (craftingItem.hasItemID(item.getId())) {
@@ -135,8 +135,8 @@ public class CraftingService {
   }
 
   private boolean hasAnyItem(int[] itemIDs) {
-    ItemContainer equipment = client.getItemContainer(InventoryID.EQUIPMENT);
-    ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+    ItemContainer equipment = client.getItemContainer(InventoryID.WORN);
+    ItemContainer inventory = client.getItemContainer(InventoryID.INV);
 
     for (int itemID : itemIDs) {
       if (equipment != null && equipment.contains(itemID)) return true;
@@ -146,7 +146,7 @@ public class CraftingService {
   }
 
   private boolean hasMaterials(CraftingMaterial[] materials) {
-    ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+    ItemContainer inventory = client.getItemContainer(InventoryID.INV);
     if (inventory == null) return false;
 
     for (CraftingMaterial material : materials) {

@@ -1,10 +1,6 @@
 package com.trs.model;
 
-import java.util.Set;
-import java.util.HashSet;
-
 import net.runelite.api.gameval.ItemID;
-
 import com.trs.data.GauntletItems;
 
 public enum CraftingItem {

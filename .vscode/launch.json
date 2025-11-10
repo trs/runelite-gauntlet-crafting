@@ -9,12 +9,12 @@
             "name": "Debug RuneLite Plugin",
             "request": "launch",
             "mainClass": "com.trs.GauntletPluginTest",
-            "projectName": "plugin-gauntlet-crafting-runelite-gauntlet",
+            "projectName": "runelite-gauntlet",
             "cwd": "${workspaceFolder}",
             "args": "--developer-mode --debug",
             "vmArgs": "-ea",
             "env": {
-                "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-11.0.25.9-hotspot"
+                "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-11.0.27.6-hotspot"
             }
         }
     ]

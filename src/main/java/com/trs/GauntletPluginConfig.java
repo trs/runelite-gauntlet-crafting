@@ -7,6 +7,7 @@ import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Alpha;
 import com.trs.model.CraftingSetting;
+import com.trs.model.CraftingCompleteBehaviour;
 
 @ConfigGroup("gauntlet-crafting")
 public interface GauntletPluginConfig extends Config
@@ -190,7 +191,7 @@ public interface GauntletPluginConfig extends Config
 	)
 	@Alpha
 	default Color craftingHighlightMissingMaterialsOutlineColor() {
-		return new Color(0, 255, 0, 200);
+		return new Color(255, 255, 0, 200);
 	}
 	
 	@ConfigItem(
@@ -236,5 +237,16 @@ public interface GauntletPluginConfig extends Config
 	)
 	default int craftingHighlightCompleteStroke() {
 		return 0;
+	}
+
+	@ConfigItem(
+		position = 9,
+		keyName = "craftingCompleteBehaviour",
+		name = "Done behaviour",
+		description = "Choose the behaviour for completed crafting options",
+		section = sectionColors
+	)
+	default CraftingCompleteBehaviour craftingCompleteBehaviour() {
+		return CraftingCompleteBehaviour.DEFAULT;
 	}
 }
