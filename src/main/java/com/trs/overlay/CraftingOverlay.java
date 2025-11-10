@@ -17,7 +17,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
 public class CraftingOverlay extends Overlay {
-  private static final String ACTION_TEXT = "What would you like to make?";
   private static final int[] CRAFTING_OPTION_WIDGETS = {
     InterfaceID.Skillmulti.A,
     InterfaceID.Skillmulti.B,
@@ -60,8 +59,6 @@ public class CraftingOverlay extends Overlay {
   public Dimension render(Graphics2D graphics2D) {
     if (!locationService.isInGauntlet()) return null;
 
-    // if (!isCrafting()) return null;
-
     Widget root = client.getWidget(InterfaceID.Skillmulti.BOTTOM);
     if (root == null || root.isHidden()) {
         return null;
@@ -79,13 +76,11 @@ public class CraftingOverlay extends Overlay {
         switch (behaviour) {
           case DISABLE:
             childWidget.clearActions();
-            childWidget.revalidate();
             break;
           case HIDE:
             childWidget.setHidden(true);
-            childWidget.revalidate();
             break;
-          case DEFAULT:
+          case OVERLAY:
             break;
         }
       }
@@ -123,12 +118,5 @@ public class CraftingOverlay extends Overlay {
           break;
       }
     }
-  }
-
-  private boolean isCrafting() {
-    Widget childWidget = client.getWidget(InterfaceID.Skillmulti.TITLE);
-    return childWidget != null
-      && childWidget.getText() != null
-      && childWidget.getText().equalsIgnoreCase(ACTION_TEXT);
   }
 }
