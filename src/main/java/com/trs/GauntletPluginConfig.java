@@ -111,7 +111,7 @@ public interface GauntletPluginConfig extends Config
 		position = 9,
 		keyName = "craftingCrystalPaddlefishCount",
 		name = "Crystal paddlefish",
-		description = "Number of escape crystals to have",
+		description = "Number of crystal paddlefish to have",
 		section = sectionCrafting
 	)
 	default int craftingCrystalPaddlefishCount() {
