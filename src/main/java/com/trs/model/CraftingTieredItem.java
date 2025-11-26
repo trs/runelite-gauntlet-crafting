@@ -1,39 +1,27 @@
 package com.trs.model;
 
-import com.trs.GauntletPluginConfig;
-import java.util.function.Function;
-
 public enum CraftingTieredItem {
   Helm(
-    CraftingItem.HELM_T1, CraftingItem.HELM_T2, CraftingItem.HELM_T3,
-    GauntletPluginConfig::craftingOptionHelm),
+    CraftingItem.HELM_T1, CraftingItem.HELM_T2, CraftingItem.HELM_T3),
   Body(
-    CraftingItem.BODY_T1, CraftingItem.BODY_T2, CraftingItem.BODY_T3,
-    GauntletPluginConfig::craftingOptionBody),
+    CraftingItem.BODY_T1, CraftingItem.BODY_T2, CraftingItem.BODY_T3),
   Legs(
-    CraftingItem.LEGS_T1, CraftingItem.LEGS_T2, CraftingItem.LEGS_T3,
-    GauntletPluginConfig::craftingOptionLegs),
+    CraftingItem.LEGS_T1, CraftingItem.LEGS_T2, CraftingItem.LEGS_T3),
   Melee(
-    CraftingItem.MELEE_T1, CraftingItem.MELEE_T2, CraftingItem.MELEE_T3,
-    GauntletPluginConfig::craftingOptionMelee),
+    CraftingItem.MELEE_T1, CraftingItem.MELEE_T2, CraftingItem.MELEE_T3),
   Magic(
-    CraftingItem.MAGIC_T1, CraftingItem.MAGIC_T2, CraftingItem.MAGIC_T3,
-    GauntletPluginConfig::craftingOptionMagic),
+    CraftingItem.MAGIC_T1, CraftingItem.MAGIC_T2, CraftingItem.MAGIC_T3),
   Ranged(
-    CraftingItem.RANGED_T1, CraftingItem.RANGED_T2, CraftingItem.RANGED_T3,
-    GauntletPluginConfig::craftingOptionRanged);
+    CraftingItem.RANGED_T1, CraftingItem.RANGED_T2, CraftingItem.RANGED_T3);
 
   private final CraftingItem itemBasic;
   private final CraftingItem itemAttuned;
   private final CraftingItem itemPerfected;
-  private final Function<GauntletPluginConfig, CraftingSetting> configGetter;
 
-  CraftingTieredItem(CraftingItem itemBasic, CraftingItem itemAttuned, CraftingItem itemPerfected,
-               Function<GauntletPluginConfig, CraftingSetting> configGetter) {
+  CraftingTieredItem(CraftingItem itemBasic, CraftingItem itemAttuned, CraftingItem itemPerfected) {
     this.itemBasic = itemBasic;
     this.itemAttuned = itemAttuned;
     this.itemPerfected = itemPerfected;
-    this.configGetter = configGetter;
   }
 
   public static CraftingTieredItem fromIndex(int index) {
@@ -46,10 +34,6 @@ public enum CraftingTieredItem {
       case 7: return Ranged;
     }
     return null;
-  }
-
-  public CraftingSetting getCraftingSetting(GauntletPluginConfig config) {
-    return configGetter != null ? configGetter.apply(config) : CraftingSetting.NONE;
   }
 
   public int[] getBasicTierItemIDs() {

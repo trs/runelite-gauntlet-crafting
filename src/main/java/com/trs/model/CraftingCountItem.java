@@ -1,31 +1,22 @@
 package com.trs.model;
 
-import com.trs.GauntletPluginConfig;
-import java.util.function.Function;
-
 public enum CraftingCountItem {
   TeleportCrystal(
-    CraftingItem.TELEPORT_CRYSTAL,
-    GauntletPluginConfig::craftingTeleportCount
+    CraftingItem.TELEPORT_CRYSTAL
   ),
   Vial(
-    CraftingItem.VIAL,
-    GauntletPluginConfig::craftingPotionCount
+    CraftingItem.VIAL
   ),
   Paddlefish(
-    CraftingItem.PADDLEFISH,
-    GauntletPluginConfig::craftingCrystalPaddlefishCount
+    CraftingItem.PADDLEFISH
   ),
   EscapeCrystal(
-    CraftingItem.ESCAPE_CRYSTAL,
-    GauntletPluginConfig::craftingEscapeCrystalCount
+    CraftingItem.ESCAPE_CRYSTAL
   );
 
   private final CraftingItem item;
-  private final Function<GauntletPluginConfig, Integer> configGetter;
 
-  CraftingCountItem(CraftingItem item, Function<GauntletPluginConfig, Integer> configGetter) {
-    this.configGetter = configGetter;
+  CraftingCountItem(CraftingItem item) {
     this.item = item;
   }
 
@@ -37,10 +28,6 @@ public enum CraftingCountItem {
       case 9: return EscapeCrystal;
     }
     return null;
-  }
-
-  public int getCraftingSetting(GauntletPluginConfig config) {
-    return configGetter != null ? configGetter.apply(config) : 0;
   }
 
   public boolean hasItemID(int itemID) {

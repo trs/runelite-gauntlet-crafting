@@ -13,19 +13,20 @@ import com.trs.model.CraftingTieredItem;
 import com.trs.model.CraftingCountItem;
 import com.trs.model.CraftingState;
 import com.trs.model.CraftingSetting;
-import com.trs.GauntletPluginConfig;
 
 @Slf4j
 @Singleton
 public class CraftingService {
 
   private final Client client;
-  private final GauntletPluginConfig config;
+  private final CraftingItemSettings craftingSettingService;
+  private final CraftingCountItemSettings craftingCountItemSettings;
 
   @Inject
-  public CraftingService(GauntletPluginConfig config, Client client) {
+  public CraftingService(Client client, CraftingItemSettings craftingSettingService, CraftingCountItemSettings craftingCountItemSettings) {
     this.client = client;
-    this.config = config;
+    this.craftingSettingService = craftingSettingService;
+    this.craftingCountItemSettings = craftingCountItemSettings;
   }
 
   public CraftingState getCraftingState(int index) {
@@ -44,7 +45,12 @@ public class CraftingService {
   }
 
   private CraftingState getTieredCraftingState(CraftingTieredItem craftingItem) {
-    CraftingSetting craftingSetting = craftingItem.getCraftingSetting(config);
+    CraftingSetting craftingSetting = craftingSettingService.getCraftingSetting(craftingItem);
+    boolean considerWithMaterials = craftingSettingService.considerWithMaterials(craftingItem);
+
+    if (craftingSetting == CraftingSetting.IGNORE) {
+      return CraftingState.SKIP;
+    }
 
     if (craftingSetting == CraftingSetting.NONE) {
       return CraftingState.COMPLETE;
@@ -54,14 +60,18 @@ public class CraftingService {
     boolean hasTier2 = hasTier3 || hasAnyItem(craftingItem.getAttunedTierItemIDs());
     boolean hasTier1 = hasTier2 || hasAnyItem(craftingItem.getBasicTierItemIDs());
 
+    boolean hasTier3Materials = hasMaterials(craftingItem.getPerfectedTierMaterials());
+    boolean hasTier2Materials = hasMaterials(craftingItem.getAttunedTierMaterials());
+    boolean hasTier1Materials = hasMaterials(craftingItem.getBasicTierMaterials());
+
     if (craftingSetting == CraftingSetting.BASIC) {
       if (hasTier1) {
         return CraftingState.COMPLETE;
-      } else {
-        if (hasMaterials(craftingItem.getBasicTierMaterials())) {
-          return CraftingState.INCOMPLETE;
-        }
+      } else if (hasTier1Materials) {
+        return CraftingState.INCOMPLETE;
       }
+
+      if (considerWithMaterials) return CraftingState.COMPLETE;
 
       return CraftingState.MISSING_MATERIALS;
     }
@@ -70,16 +80,15 @@ public class CraftingService {
       if (hasTier2) {
         return CraftingState.COMPLETE;
       }
-      else if (hasTier1) {
-        if (hasMaterials(craftingItem.getAttunedTierMaterials())) {
-          return CraftingState.INCOMPLETE;
-        }
+      else if (hasTier1 && hasTier2Materials) {
+        return CraftingState.INCOMPLETE;
       }
-      else {
-        if (hasMaterials(craftingItem.getBasicTierMaterials())) {
-          return CraftingState.INCOMPLETE;
-        }
+      else if (hasTier1Materials) {
+        if (!considerWithMaterials) return CraftingState.INCOMPLETE;
+        else if (hasTier2Materials) return CraftingState.INCOMPLETE;
       }
+
+      if (considerWithMaterials) return CraftingState.COMPLETE;
 
       return CraftingState.MISSING_MATERIALS;
     }
@@ -88,30 +97,29 @@ public class CraftingService {
       if (hasTier3) {
         return CraftingState.COMPLETE;
       }
-      else if (hasTier2) {
-        if (hasMaterials(craftingItem.getPerfectedTierMaterials())) {
-          return CraftingState.INCOMPLETE;
-        }
+
+      if (hasTier2 && hasTier3Materials) {
+        return CraftingState.INCOMPLETE;
       }
-      else if (hasTier1) {
-        if (hasMaterials(craftingItem.getAttunedTierMaterials())) {
-          return CraftingState.INCOMPLETE;
-        }
+      else if (hasTier1 && hasTier2Materials) {
+        if (!considerWithMaterials) return CraftingState.INCOMPLETE;
+        else if (hasTier3Materials) return CraftingState.INCOMPLETE;
       }
-      else {
-        if (hasMaterials(craftingItem.getBasicTierMaterials())) {
-          return CraftingState.INCOMPLETE;
-        }
+      else if (hasTier1Materials) {
+        if (!considerWithMaterials) return CraftingState.INCOMPLETE;
+        else if (hasTier3Materials && hasTier2Materials) return CraftingState.COMPLETE;
       }
 
-      return CraftingState.MISSING_MATERIALS;      
+      if (considerWithMaterials) return CraftingState.COMPLETE;
+
+      return CraftingState.MISSING_MATERIALS;
     }
 
     return CraftingState.SKIP;    
   }
 
   private CraftingState getCountCraftingState(CraftingCountItem craftingItem) {
-    int craftingCountTarget = craftingItem.getCraftingSetting(config);
+    int craftingCountTarget = craftingCountItemSettings.getCraftingCount(craftingItem);
 
     int count = 0;
     ItemContainer inventory = client.getItemContainer(InventoryID.INV);
