@@ -14,124 +14,170 @@ public interface GauntletPluginConfig extends Config
 {
 	@ConfigSection(
 		position = 0,
-		name = "Crafting Settings",
-		description = "Pick what to items to craft"
+		name = "Weapon Crafting",
+		description = "Pick what to weapons to craft"
 	)
-	String sectionCrafting = "sectionCrafting";
+	String sectionWeaponCrafting = "sectionWeaponCrafting";
 	
 	@ConfigItem(
 		position = 0,
 		keyName = "craftingOptionRanged",
 		name = "Ranged",
 		description = "Choose tier of ranged weapon to craft",
-		section = sectionCrafting
+		section = sectionWeaponCrafting
 	)
 	default CraftingSetting craftingOptionRanged() {
 			return CraftingSetting.PERFECTED;
 	}
-	
+
 	@ConfigItem(
 		position = 1,
+		keyName = "craftingOptionRangedWithMaterial",
+		name = "Ranged - With materials",
+		description = "Highlight ranged weapon only if you have the materials needed to craft the chosen tier",
+		section = sectionWeaponCrafting
+	)
+	default boolean craftingOptionRangedWithMaterial() {
+		return false;
+	}
+	
+	@ConfigItem(
+		position = 2,
 		keyName = "craftingOptionMagic",
 		name = "Magic",
 		description = "Choose tier of magic weapon to craft",
-		section = sectionCrafting
+		section = sectionWeaponCrafting
 	)
 	default CraftingSetting craftingOptionMagic() {
 			return CraftingSetting.PERFECTED;
 	}
 
 	@ConfigItem(
-		position = 2,
+		position = 3,
+		keyName = "craftingOptionMagicWithMaterial",
+		name = "Magic - With materials",
+		description = "Highlight magic weapon only if you have the materials needed to craft the chosen tier",
+		section = sectionWeaponCrafting
+	)
+	default boolean craftingOptionMagicWithMaterial() {
+		return false;
+	}
+
+	@ConfigItem(
+		position = 4,
 		keyName = "craftingOptionMelee",
 		name = "Melee",
 		description = "Choose tier of melee weapon to craft",
-		section = sectionCrafting
+		section = sectionWeaponCrafting
 	)
 	default CraftingSetting craftingOptionMelee() {
 			return CraftingSetting.NONE;
 	}
 
 	@ConfigItem(
-		position = 3,
+		position = 5,
+		keyName = "craftingOptionMeleeWithMaterial",
+		name = "Melee - With materials",
+		description = "Highlight melee weapon only if you have the materials needed to craft the chosen tier",
+		section = sectionWeaponCrafting
+	)
+	default boolean craftingOptionMeleeWithMaterial() {
+		return false;
+	}
+
+	@ConfigSection(
+		position = 1,
+		name = "Armor Crafting",
+		description = "Pick what to armor to craft"
+	)
+	String sectionArmorCrafting = "sectionArmorCrafting";
+
+	@ConfigItem(
+		position = 1,
 		keyName = "craftingOptionHelm",
 		name = "Helm",
 		description = "Choose tier of helm to craft",
-		section = sectionCrafting
+		section = sectionArmorCrafting
 	)
 	default CraftingSetting craftingOptionHelm() {
 			return CraftingSetting.BASIC;
 	}
 
 	@ConfigItem(
-		position = 4,
+		position = 2,
 		keyName = "craftingOptionBody",
 		name = "Body",
 		description = "Choose tier of body to craft",
-		section = sectionCrafting
+		section = sectionArmorCrafting
 	)
 	default CraftingSetting craftingOptionBody() {
 			return CraftingSetting.BASIC;
 	}
 
 	@ConfigItem(
-		position = 5,
+		position = 3,
 		keyName = "craftingOptionLegs",
 		name = "Legs",
 		description = "Choose tier of legs to craft",
-		section = sectionCrafting
+		section = sectionArmorCrafting
 	)
 	default CraftingSetting craftingOptionLegs() {
 			return CraftingSetting.BASIC;
 	}
 
+	@ConfigSection(
+		position = 2,
+		name = "Item Crafting",
+		description = "Pick what to items to craft"
+	)
+	String sectionItemCrafting = "sectionItemCrafting";
+
 	@ConfigItem(
-		position = 6,
+		position = 0,
 		keyName = "craftingTeleportCount",
 		name = "Teleport crystal",
 		description = "Number of teleport crystals to have",
-		section = sectionCrafting
+		section = sectionItemCrafting
 	)
 	default int craftingTeleportCount() {
 		return 1;
 	}
 
 	@ConfigItem(
-		position = 7,
+		position = 1,
 		keyName = "craftingPotionCount",
 		name = "Potion vial",
 		description = "Number of potions/vials to have",
-		section = sectionCrafting
+		section = sectionItemCrafting
 	)
 	default int craftingPotionCount() {
 		return 2;
 	}
 
 	@ConfigItem(
-		position = 9,
+		position = 2,
 		keyName = "craftingCrystalPaddlefishCount",
 		name = "Crystal paddlefish",
 		description = "Number of crystal paddlefish to have",
-		section = sectionCrafting
+		section = sectionItemCrafting
 	)
 	default int craftingCrystalPaddlefishCount() {
 		return 0;
 	}
 
 	@ConfigItem(
-		position = 9,
+		position = 3,
 		keyName = "craftingEscapeCrystalCount",
 		name = "Escape crystal",
 		description = "Number of escape crystals to have",
-		section = sectionCrafting
+		section = sectionItemCrafting
 	)
 	default int craftingEscapeCrystalCount() {
 		return 0;
 	}
 
-
 	@ConfigSection(
-		position = 1,
+		position = 3,
 		name = "Color Settings",
 		description = "Pick colors for each overlay element"
 	)
