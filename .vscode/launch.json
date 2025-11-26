@@ -9,7 +9,7 @@
             "name": "Debug RuneLite Plugin",
             "request": "launch",
             "mainClass": "com.trs.GauntletPluginTest",
-            "projectName": "runelite-gauntlet",
+            "projectName": "plugin-gauntlet-crafting-${workspaceFolderBasename}",
             "cwd": "${workspaceFolder}",
             "args": "--developer-mode --debug",
             "vmArgs": "-ea",
