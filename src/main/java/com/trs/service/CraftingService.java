@@ -80,10 +80,10 @@ public class CraftingService {
       if (hasTier2) {
         return CraftingState.COMPLETE;
       }
-      else if (hasTier1 && hasTier2Materials) {
+      else if (hasTier1 && hasTier2Materials && !hasTier2) {
         return CraftingState.INCOMPLETE;
       }
-      else if (hasTier1Materials) {
+      else if (hasTier1Materials && !hasTier1 && !hasTier2) {
         if (!considerWithMaterials) return CraftingState.INCOMPLETE;
         else if (hasTier2Materials) return CraftingState.INCOMPLETE;
       }
@@ -101,11 +101,11 @@ public class CraftingService {
       if (hasTier2 && hasTier3Materials) {
         return CraftingState.INCOMPLETE;
       }
-      else if (hasTier1 && hasTier2Materials) {
+      else if (hasTier1 && hasTier2Materials && !hasTier2) {
         if (!considerWithMaterials) return CraftingState.INCOMPLETE;
         else if (hasTier3Materials) return CraftingState.INCOMPLETE;
       }
-      else if (hasTier1Materials) {
+      else if (hasTier1Materials && !hasTier1 && !hasTier2) {
         if (!considerWithMaterials) return CraftingState.INCOMPLETE;
         else if (hasTier3Materials && hasTier2Materials) return CraftingState.COMPLETE;
       }
