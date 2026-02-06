@@ -24,6 +24,12 @@ public class CraftingItemSettings {
         return config.craftingOptionMagic();
       case Melee:
         return config.craftingOptionMelee();
+      case Helm:
+        return config.craftingOptionHelm();
+      case Body:
+        return config.craftingOptionBody();
+      case Legs:
+        return config.craftingOptionLegs();
       default:
         return CraftingSetting.NONE;
     }
