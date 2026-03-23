@@ -29,20 +29,9 @@ public interface GauntletPluginConfig extends Config
 	default CraftingSetting craftingOptionRanged() {
 			return CraftingSetting.PERFECTED;
 	}
-
-	@ConfigItem(
-		position = 1,
-		keyName = "craftingOptionRangedWithMaterial",
-		name = "Ranged - With materials",
-		description = "Highlight ranged weapon only if you have the materials needed to craft the chosen tier",
-		section = sectionWeaponCrafting
-	)
-	default boolean craftingOptionRangedWithMaterial() {
-		return false;
-	}
 	
 	@ConfigItem(
-		position = 2,
+		position = 1,
 		keyName = "craftingOptionMagic",
 		name = "Magic",
 		description = "Choose tier of magic weapon to craft",
@@ -53,18 +42,7 @@ public interface GauntletPluginConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 3,
-		keyName = "craftingOptionMagicWithMaterial",
-		name = "Magic - With materials",
-		description = "Highlight magic weapon only if you have the materials needed to craft the chosen tier",
-		section = sectionWeaponCrafting
-	)
-	default boolean craftingOptionMagicWithMaterial() {
-		return false;
-	}
-
-	@ConfigItem(
-		position = 4,
+		position = 2,
 		keyName = "craftingOptionMelee",
 		name = "Melee",
 		description = "Choose tier of melee weapon to craft",
@@ -75,13 +53,13 @@ public interface GauntletPluginConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 5,
-		keyName = "craftingOptionMeleeWithMaterial",
-		name = "Melee - With materials",
-		description = "Highlight melee weapon only if you have the materials needed to craft the chosen tier",
+		position = 3,
+		keyName = "craftingOptionWeaponWithMaterial",
+		name = "Highlight with all materials",
+		description = "Highlight only when all materials are available to craft up to the chosen tier, otherwise highlight as incomplete",
 		section = sectionWeaponCrafting
 	)
-	default boolean craftingOptionMeleeWithMaterial() {
+	default boolean craftingOptionWeaponWithMaterial() {
 		return false;
 	}
 
@@ -93,7 +71,7 @@ public interface GauntletPluginConfig extends Config
 	String sectionArmorCrafting = "sectionArmorCrafting";
 
 	@ConfigItem(
-		position = 1,
+		position = 0,
 		keyName = "craftingOptionHelm",
 		name = "Helm",
 		description = "Choose tier of helm to craft",
@@ -104,7 +82,7 @@ public interface GauntletPluginConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 2,
+		position = 1,
 		keyName = "craftingOptionBody",
 		name = "Body",
 		description = "Choose tier of body to craft",
@@ -115,7 +93,7 @@ public interface GauntletPluginConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 3,
+		position = 2,
 		keyName = "craftingOptionLegs",
 		name = "Legs",
 		description = "Choose tier of legs to craft",
@@ -123,6 +101,17 @@ public interface GauntletPluginConfig extends Config
 	)
 	default CraftingSetting craftingOptionLegs() {
 			return CraftingSetting.BASIC;
+	}
+
+	@ConfigItem(
+		position = 3,
+		keyName = "craftingOptionArmorWithMaterial",
+		name = "Highlight with all materials",
+		description = "Highlight only when all materials are available to craft up to the chosen tier, otherwise highlight as incomplete",
+		section = sectionArmorCrafting
+	)
+	default boolean craftingOptionArmorWithMaterial() {
+		return false;
 	}
 
 	@ConfigSection(

@@ -38,11 +38,13 @@ public class CraftingItemSettings {
   public boolean considerWithMaterials(CraftingTieredItem craftingItem) {
     switch (craftingItem) {
       case Ranged:
-        return config.craftingOptionRangedWithMaterial();
       case Magic:
-        return config.craftingOptionMagicWithMaterial();
       case Melee:
-        return config.craftingOptionMeleeWithMaterial();
+        return config.craftingOptionWeaponWithMaterial();
+      case Helm:
+      case Body:
+      case Legs:
+        return config.craftingOptionArmorWithMaterial();
       default:
         return false;
     }
