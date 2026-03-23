@@ -1,4 +1,4 @@
-# Gauntlet Crafting
+# Gauntlet Crafting [![Plugin Installs](https://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/installs/plugin/gauntlet-crafting)](https://github.com/trs/runelite-gauntlet-crafting)
 
 Highlight crafting options that should be performed during the gauntlet
 
@@ -17,3 +17,21 @@ Highlight crafting options that should be performed during the gauntlet
 3. Change colors for each state
 
 ![Runelite options panel](./docs/options.png)
+
+### Options
+
+**Ignore**
+> Will never highlight or dim this option, vanilla
+
+**None**
+> This option will always be dimmed, never craft this
+
+**Basic/Attuned/Perfected**
+> The goal tier to be crafted.  
+> Highlight when missing materials or ready to craft, dim when this tier has been crafted
+
+**With materials**
+> Only highlight this option be crafted if you have _all_ the materials to craft this tier and all previous tiers
+
+**Item count**
+> Highlight this item if you have less than the number shown
