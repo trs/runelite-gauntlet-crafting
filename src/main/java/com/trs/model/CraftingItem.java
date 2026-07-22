@@ -10,7 +10,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_HELMET_T1_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 40),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 1)
@@ -22,7 +22,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_HELMET_T2_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 60),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 1)
@@ -34,7 +34,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_HELMET_T3_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 80),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 100),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 2)
@@ -47,7 +47,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_CHESTPLATE_T1_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 40),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 1)
@@ -59,7 +59,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_CHESTPLATE_T2_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 60),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 100),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 2)
@@ -71,7 +71,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_CHESTPLATE_T3_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 80),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 100),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 2)
@@ -84,7 +84,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_PLATELEGS_T1_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 40),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 1)
@@ -96,7 +96,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_PLATELEGS_T2_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 60),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 1),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 1)
@@ -108,7 +108,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_PLATELEGS_T3_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 80),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 100),
       new CraftingMaterial(GauntletItems.ORE_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.BARK_ITEM_IDS, 2),
       new CraftingMaterial(GauntletItems.FIBRE_ITEM_IDS, 2)
@@ -121,7 +121,6 @@ public enum CraftingItem {
       ItemID.GAUNTLET_MELEE_T1_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 20),
       new CraftingMaterial(GauntletItems.WEAPON_FRAME_ITEM_IDS, 1),
     }
   ),
@@ -131,7 +130,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_MELEE_T2_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 60),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
     }
   ),
   MELEE_T3(
@@ -150,7 +149,6 @@ public enum CraftingItem {
       ItemID.GAUNTLET_RANGED_T1_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 20),
       new CraftingMaterial(GauntletItems.WEAPON_FRAME_ITEM_IDS, 1),
     }
   ),
@@ -160,7 +158,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_RANGED_T2_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 60),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
     }
   ),
   RANGED_T3(
@@ -179,7 +177,6 @@ public enum CraftingItem {
       ItemID.GAUNTLET_MAGIC_T1_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 20),
       new CraftingMaterial(GauntletItems.WEAPON_FRAME_ITEM_IDS, 1),
     }
   ),
@@ -189,7 +186,7 @@ public enum CraftingItem {
       ItemID.GAUNTLET_MAGIC_T2_HM
     }, 
     new CraftingMaterial[] {
-      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 60),
+      new CraftingMaterial(GauntletItems.CRYSTAL_SHARD_ITEM_IDS, 50),
     }
   ),
   MAGIC_T3(
